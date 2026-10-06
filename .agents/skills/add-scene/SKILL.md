@@ -9,7 +9,7 @@ description: Add or change a scene in an existing video project (template or cus
 2. **Pick the approach:**
    - a template fits → configure it in `projects/<id>/scenes/index.ts` (`templates.showcase`, `features`, `stats`, `code`, `kinetic`, `phoneShowcase`, `cta`, … — docs/kit-and-templates.md);
    - otherwise → a new file `projects/<id>/scenes/<name>.ts` with `defineScene({ name, render(f, g) {…}, cues })` built from kit components (docs/scene-api.md).
-3. **Write it correctly** (CLAUDE.md §5):
+3. **Write it correctly** (AGENTS.md §5):
    - pure function of `f`: no `Math.random`/`Date.now`/state — use `f.rand('key')`, `f.wiggle()`;
    - paint a background first (`kit.background(g, …)`), keep the shot alive (`g.camera(kit.drift(f))`);
    - position with `f.stage` and `kit.responsive(f.stage).s`, centers, text inside `f.stage.title`;
@@ -26,4 +26,4 @@ description: Add or change a scene in an existing video project (template or cus
    npx mvs still <id> --scene <scene-id> --format vertical   # if the project ships other formats
    npx mvs render <id> --draft --scene <scene-id>
    ```
-   Look at every PNG; fix layout, timing and contrast issues before reporting back.
+   Look at every PNG (`view_image`); fix layout, timing and contrast issues before reporting back.

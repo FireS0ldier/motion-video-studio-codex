@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+### Codex edition
+
+This repository is the Codex edition of [motion-video-studio](https://github.com/FireS0ldier/motion-video-studio).
+
+- **`AGENTS.md` is the full agent guide** (Codex loads it automatically; under 24 KiB, well within the 32 KiB Codex reads from a project's `AGENTS.md` files). `CLAUDE.md` and `.claude/` are removed.
+- **Skills in `.agents/skills/`**, where Codex discovers project skills; they mention `view_image` for the visual review.
+- **`.codex/config.toml`:** network for the sandbox and the recommended model (`gpt-6.1-sol`, reasoning effort `high`); Codex applies it once the project is trusted.
+- **`.gitattributes`:** LF line endings everywhere, so the setup script and the tests also work on Windows checkouts.
+- **[docs/codex.md](docs/codex.md):** sandbox settings (`network_access`), writes outside the repository, macOS Chromium limitation, long-running commands, images, Codex Cloud (`tools/codex-cloud-setup.sh`, domains, VM sizes) and model choice.
+- **Python caches in sandboxes:** when the user cache folder (`~/.cache`) is read-only, `voice` and `align` keep uv's environments and the Hugging Face/PyTorch caches in `.cache/python/` (variables you set are kept).
+- Tests: `AGENTS.md` size, the Agent Skills format of every skill, relative links and headings in all docs, the cache fallback.
+
 ### Added
 
 - **German voiceovers:** `mvs voice` uses Piper for German scripts (`language: de`), with four curated, checksum-pinned voices (`de_DE-thorsten-high` default, `thorsten-medium`, `thorsten_emotional-medium` with `--speaker`, `kerstin-low`). Their recordings are CC0, but the models were fine-tuned from English voices with non-commercial data terms, so commercial use is not clearly licensed (see docs/audio.md). Any other Piper voice id works too. New options `--engine kokoro|piper`, `--speaker`, `--seed`; `--list` shows both engines (`--list --voice <id>`: its speakers).

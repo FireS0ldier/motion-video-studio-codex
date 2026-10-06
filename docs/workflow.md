@@ -1,6 +1,6 @@
 # Workflow: creating a video end to end
 
-This is the long form of the workflow in [CLAUDE.md](../CLAUDE.md#3-create-a-new-video--the-workflow). It works the same for a person at a keyboard and for an AI agent. Every step has a command, an output you can inspect, and a check.
+This is the long form of the workflow in [AGENTS.md](../AGENTS.md#3-create-a-new-video--the-workflow). It works the same for a person at a keyboard and for an AI agent. Every step has a command, an output you can inspect, and a check.
 
 ```
  1 setup        npm install && npm run setup          once per machine
@@ -134,7 +134,7 @@ export default defineTimeline(({ cut, section, end }) => [
 
 `section('id')` and `cut('phrase')` place the cut inside the pause *before* the words, so a transition never covers speech. The last entry needs an `end` (`end(2)` = 2 s after the voice ends).
 
-Write/iterate scenes in the preview (next step). Rules that keep them correct are in [CLAUDE.md §5](../CLAUDE.md#5-writing-scenes); motion quality in the [motion guide](motion-guide.md).
+Write/iterate scenes in the preview (next step). Rules that keep them correct are in [AGENTS.md §5](../AGENTS.md#5-writing-scenes); motion quality in the [motion guide](motion-guide.md).
 
 ## 8. Preview
 

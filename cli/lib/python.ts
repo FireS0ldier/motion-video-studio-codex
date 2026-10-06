@@ -5,10 +5,12 @@
  */
 
 import { spawn } from 'node:child_process'
-import { join } from 'node:path'
+import { existsSync, rmSync, writeFileSync } from 'node:fs'
+import { homedir } from 'node:os'
+import { dirname, join, resolve } from 'node:path'
 import { which, runSync } from './exec.ts'
-import { CliError } from './log.ts'
-import { TOOLS } from './paths.ts'
+import { CliError, log } from './log.ts'
+import { CACHE, TOOLS } from './paths.ts'
 
 export interface PythonRunner {
   kind: 'uv' | 'python-m-uv' | 'python'
@@ -31,6 +33,67 @@ export function findPythonRunner(): PythonRunner | null {
     if (runSync(py, ['-m', 'uv', '--version']).code === 0) return { kind: 'python-m-uv', describe: `${py} -m uv` }
   }
   return null
+}
+
+/** True when files can be created in `dir`, or in the nearest existing parent that would hold it. */
+export function isWritableDir(dir: string): boolean {
+  // no mkdir: recursive mkdirSync never returns on some file systems (e.g. below /proc)
+  let d = resolve(dir)
+  while (!existsSync(d)) {
+    const up = dirname(d)
+    if (up === d) return false
+    d = up
+  }
+  const probe = join(d, `.mvs-write-test-${process.pid}`)
+  try {
+    writeFileSync(probe, '')
+    rmSync(probe, { force: true })
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Cache folders for the Python tools. uv, Hugging Face and PyTorch keep their caches
+ * in the user's cache folder (~/.cache). Agent sandboxes (e.g. Codex) often allow
+ * writes only inside the repository: then the caches move to .cache/python/.
+ * Variables the user set are kept. Returns only the variables to add.
+ */
+export function pythonCacheEnv(
+  env: NodeJS.ProcessEnv = process.env,
+  writable: (dir: string) => boolean = isWritableDir,
+  platform: NodeJS.Platform = process.platform,
+): Record<string, string> {
+  const home = env.HOME || env.USERPROFILE || safeHomedir()
+  const base = platform === 'win32' ? env.LOCALAPPDATA : env.XDG_CACHE_HOME || (home && join(home, '.cache'))
+  // unknown cache folder (no home): the tools could not use their defaults either
+  if (base && writable(base)) return {}
+  const local = join(CACHE, 'python')
+  const dirs: Record<string, string> = {
+    UV_CACHE_DIR: join(local, 'uv'),
+    UV_PYTHON_INSTALL_DIR: join(local, 'uv-python'),
+    HF_HOME: join(local, 'huggingface'),
+    TORCH_HOME: join(local, 'torch'),
+  }
+  return Object.fromEntries(Object.entries(dirs).filter(([k]) => !env[k]))
+}
+
+function safeHomedir(): string {
+  try {
+    return homedir()
+  } catch {
+    return '' // no HOME and no passwd entry
+  }
+}
+
+let cacheEnv: Record<string, string> | undefined
+function toolCacheEnv(): Record<string, string> {
+  if (!cacheEnv) {
+    cacheEnv = pythonCacheEnv()
+    if (Object.keys(cacheEnv).length) log.dim('  user cache folder is not writable (sandbox?): Python caches go to .cache/python/')
+  }
+  return cacheEnv
 }
 
 function pythonExe(): string | null {
@@ -64,7 +127,8 @@ export async function runPythonTool(script: string, args: string[], packages: st
     argv = [file, ...args]
   }
   return new Promise((resolve, reject) => {
-    const child = spawn(cmd, argv, { stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, PYTHONUNBUFFERED: '1', UV_NO_PROGRESS: '1' } })
+    const env = { ...process.env, ...toolCacheEnv(), PYTHONUNBUFFERED: '1', UV_NO_PROGRESS: '1' }
+    const child = spawn(cmd, argv, { stdio: ['ignore', 'pipe', 'pipe'], env })
     let out = ''
     let err = ''
     let lineStart = true

@@ -163,7 +163,7 @@ function printHelp() {
   const w = Math.max(...Object.keys(commands).map((k) => k.length))
   for (const [name, spec] of Object.entries(commands)) log.info(`  ${color.cyan(name.padEnd(w))}  ${spec.summary}`)
   log.info(`\nTypical flow: new → (voice) → align → analyze → dev → check → still → render --draft → render`)
-  log.info(`Docs: README.md, CLAUDE.md, docs/. Details: npx mvs <command> --help`)
+  log.info(`Docs: README.md, AGENTS.md, docs/. Details: npx mvs <command> --help`)
 }
 
 async function main() {

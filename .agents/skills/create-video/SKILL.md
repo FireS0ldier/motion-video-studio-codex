@@ -5,7 +5,7 @@ description: Create a new voiceover-driven product, app or marketing video in th
 
 # Create a video
 
-Follow CLAUDE.md §3. This is the condensed checklist; run every command from the repo root.
+Follow AGENTS.md §3. This is the condensed checklist; run every command from the repo root.
 
 ## 1. Brief
 
@@ -38,7 +38,7 @@ npx mvs new <id> --title "<Title>" [--format vertical]
 ```bash
 npm run typecheck
 npx mvs check <id>                 # fix every error; resolve warnings
-npx mvs review <id>                # then LOOK at out/<id>/review/*.png
+npx mvs review <id>                # then LOOK at out/<id>/review/*.png (view_image)
 npx mvs still <id> --t <s>         # look at specific moments
 npx mvs render <id> --draft        # sample frames: ffmpeg -ss <t> -i out/<id>/<id>-draft.mp4 -frames:v 1 x.png
 ```

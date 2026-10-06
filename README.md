@@ -1,8 +1,10 @@
-# Motion Video Studio
+# Motion Video Studio — Codex edition
+
+> The [Motion Video Studio](https://github.com/FireS0ldier/motion-video-studio) set up for **OpenAI Codex**: same engine and CLI, with the agent guide in [`AGENTS.md`](AGENTS.md), skills in [`.agents/skills`](.agents/skills), Codex settings in [`.codex/config.toml`](.codex/config.toml) and the setup guide in [docs/codex.md](docs/codex.md).
 
 **Motion graphics as code, driven by a voiceover.** Write scenes in TypeScript, anchor them to the words of a voiceover, preview them live in the browser and render frame-exact, reproducible MP4s — product launches, app walkthroughs, explainers and social cuts — without After Effects.
 
-The repository is built to be used by **AI coding agents** (Claude Code, Codex, Cursor, …) as much as by people: one CLI (`mvs`) covers the whole workflow, every step is scriptable and checkable, and [`CLAUDE.md`](CLAUDE.md) explains how to work in it.
+The repository is built to be used by **OpenAI Codex** (and other agents that read `AGENTS.md`) as much as by people: one CLI (`mvs`) covers the whole workflow, every step is scriptable and checkable, and [`AGENTS.md`](AGENTS.md) explains how to work in it. Codex setup: [docs/codex.md](docs/codex.md).
 
 ```
 script.md ──► voiceover ──► word timing ──► scenes (TS) ──► preview ──► stills ──► draft ──► final MP4
@@ -44,8 +46,8 @@ script.md ──► voiceover ──► word timing ──► scenes (TS) ──
 ## Quick start
 
 ```bash
-git clone https://github.com/FireS0ldier/motion-video-studio.git
-cd motion-video-studio
+git clone https://github.com/FireS0ldier/motion-video-studio-codex.git
+cd motion-video-studio-codex
 npm install
 npm run setup                 # installs a headless Chromium if needed, checks ffmpeg, runs `mvs doctor`
 
@@ -54,6 +56,8 @@ npx mvs still orbit-launch --t 12.5,24     # PNG stills → out/orbit-launch/sti
 npx mvs render orbit-launch --draft        # fast draft MP4 (~3 min on a 4-core VM)
 npx mvs render orbit-launch                # final 1080p60 with motion blur (~40 min without GPU)
 ```
+
+With Codex: run `codex` in the folder, trust the project when asked (that applies [`.codex/config.toml`](.codex/config.toml)) and describe the video you want — the `create-video` skill takes it from there. Setup details: [docs/codex.md](docs/codex.md).
 
 Preview keys: `space` play/pause (with audio) · `←/→` ±1 s (`shift` ±5 s) · `,` `.` one frame · `[` `]` previous/next scene · `l` loop scene · `g` safe areas · `m` motion blur · `q` resolution · `s` save still · `w` warnings · `h` hide UI · `?` help. URL: `?t=35`, `?scene=setup`.
 
@@ -159,7 +163,7 @@ The design started from the *Motion as Code* workflow guide (custom TypeScript e
 | **Procedural SFX and music** | A sound library generated from code is license-free, reproducible and tweakable. Swap in your own files by name any time. |
 | **Content / engine separation** | `engine/` and `cli/` are stable infrastructure; everything video-specific lives in `projects/<id>/` (scenes, script, brand, assets). Templates are configurable scenes, the kit is building blocks, custom scenes are plain TypeScript. |
 
-**Remotion "superpowers" / agent skills** were evaluated: they help agents write Remotion code, which this engine does not use. The equivalent here is the agent documentation ([CLAUDE.md](CLAUDE.md)), project skills in [`.claude/skills`](.claude/skills) and the checkable CLI.
+**Remotion "superpowers" / agent skills** were evaluated: they help agents write Remotion code, which this engine does not use. The equivalent here is the agent documentation ([AGENTS.md](AGENTS.md)), project skills in [`.agents/skills`](.agents/skills) and the checkable CLI.
 
 ## Project layout
 
@@ -219,7 +223,8 @@ Static layers can be cached (`g.layer({ cache: 'key' })`), motion blur only adds
 
 | Doc | For |
 | --- | --- |
-| [CLAUDE.md](CLAUDE.md) | AI agents: rules, workflow, commands, quality bar |
+| [AGENTS.md](AGENTS.md) | Codex and other agents: rules, workflow, commands, quality bar |
+| [docs/codex.md](docs/codex.md) | Using the studio with OpenAI Codex: sandbox, caches, cloud, model choice |
 | [docs/workflow.md](docs/workflow.md) | Creating a video end to end |
 | [docs/scene-api.md](docs/scene-api.md) | `f` (frame) and `g` (graphics) reference, layers, camera, text |
 | [docs/kit-and-templates.md](docs/kit-and-templates.md) | Components and scene templates |

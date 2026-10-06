@@ -6,7 +6,7 @@ description: Review a video project for technical and motion-design quality (che
 # Review a video
 
 1. **Technical:** `npx mvs check <id>` — every error must be fixed; read every warning (stale timing, missing phrases/assets, crashes, blank frames, text outside the frame, slow scenes, non-determinism).
-2. **Visual pack:** `npx mvs review <id>`, then open and look at:
+2. **Visual pack:** `npx mvs review <id>`, then open (`view_image`) and look at:
    - `out/<id>/review/contact.png` — pacing, variety of layouts, color rhythm, no two neighbours looking the same;
    - `out/<id>/review/scene-*.png` — one focal point, hierarchy, type sizes (≤ 2–3 per scene), alignment, contrast, safe areas, nothing clipped;
    - `out/<id>/review/transition-*.png` — no empty or muddy frames mid-transition.

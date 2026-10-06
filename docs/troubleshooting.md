@@ -13,6 +13,8 @@ Start with **`npx mvs doctor`** — it checks Node, dependencies, ffmpeg/libx264
 | Node version error | Node ≥ 20.19 (22 LTS recommended, see `.nvmrc`) |
 | `uv not found` (align/voice) | Install [uv](https://docs.astral.sh/uv/getting-started/installation/), or use `mvs align --engine heuristic` / `--estimate` |
 | Port 5173 in use | `npx mvs dev <id> --port 5180` or `MVS_PORT` |
+| Codex: `npm install`, `mvs voice` or `mvs align` cannot download | Network is off in Codex's sandbox by default: trust the project so `.codex/config.toml` turns it on, or set `network_access = true` yourself ([codex.md](codex.md#sandbox-and-network)) |
+| Codex: `listen EPERM` or Chromium fails to launch when rendering | Linux: turn network on for the sandbox (it also blocks local sockets). macOS: approve running the render command outside the sandbox ([codex.md](codex.md#sandbox-and-network)) |
 | Model download fails behind a proxy | Models come from huggingface.co and github.com. Set `HTTPS_PROXY` and, if the proxy re-signs TLS, `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE` to its CA bundle. Downloads are verified by SHA-256 and cached in `.cache/models/`. |
 
 ## Timing and voiceover

@@ -43,10 +43,12 @@
     "ffmpeg",
     "voiceover",
     "ai-agents",
-    "claude-code"
+    "agents-md",
+    "codex",
+    "openai-codex"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/FireS0ldier/motion-video-studio.git"
+    "url": "https://github.com/FireS0ldier/motion-video-studio-codex.git"
   }
 }

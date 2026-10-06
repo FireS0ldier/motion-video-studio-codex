@@ -5,8 +5,8 @@ Thanks for improving Motion Video Studio. This file is about changing the **stud
 ## Setup
 
 ```bash
-git clone https://github.com/FireS0ldier/motion-video-studio.git
-cd motion-video-studio
+git clone https://github.com/FireS0ldier/motion-video-studio-codex.git
+cd motion-video-studio-codex
 npm install
 npm run setup          # Chromium if needed, ffmpeg check, doctor
 npm run check          # typecheck + unit tests

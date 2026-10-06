@@ -1,0 +1,14 @@
+# Codex settings for this repository. Codex uses them once you trust the project
+# (it asks the first time you open it). Details: docs/codex.md
+
+# Recommended model for making videos (script, custom scenes, visual review).
+# Codex's built-in default effort for gpt-6.1-sol is "low"; videos need more.
+# If your account cannot use gpt-6.1-sol yet: "gpt-6-sol" (Plus and higher) or
+# "gpt-6-luna" (Free/Go, desktop app only). Enterprise/Edu: an admin enables 6.1 Sol.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+
+# npm install, `mvs voice` and `mvs align` download packages and models, and
+# on Linux the sandbox blocks the local render server while network is off.
+[sandbox_workspace_write]
+network_access = true
